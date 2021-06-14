@@ -1,0 +1,52 @@
+{
+  "Math.dll": {
+    "E:\\ProjetosGithub\\Testing_Softwares\\TestingExamples\\Math\\Math\\SimpleMath.cs": {
+      "Math.Api.SimpleMath": {
+        "System.Int32 Math.Api.SimpleMath::add(System.Int32,System.Int32)": {
+          "Lines": {
+            "5": 0,
+            "6": 0,
+            "7": 0
+          },
+          "Branches": []
+        },
+        "System.Int32 Math.Api.SimpleMath::substract(System.Int32,System.Int32)": {
+          "Lines": {
+            "9": 0,
+            "10": 0,
+            "11": 0
+          },
+          "Branches": []
+        },
+        "System.Decimal Math.Api.SimpleMath::divide(System.Int32,System.Int32)": {
+          "Lines": {
+            "13": 0,
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "18": 0,
+            "20": 0
+          },
+          "Branches": [
+            {
+              "Line": 14,
+              "Offset": 7,
+              "EndOffset": 9,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 14,
+              "Offset": 7,
+              "EndOffset": 16,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    }
+  }
+}
