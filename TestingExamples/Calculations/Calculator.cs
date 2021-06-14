@@ -17,5 +17,10 @@ namespace Calculations
         {
             return a + b;
         }
+
+        public bool isOdd(int value)
+        {
+            return (value % 2) == 1;
+        }
     }
 }
