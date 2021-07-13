@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CursoOnline.Dominio._Base
 {
@@ -22,7 +20,7 @@ namespace CursoOnline.Dominio._Base
 
         public ValidadorDeRegra Quando(bool temErro, string mensagemDeErro)
         {
-            if (temErro)
+            if(temErro)
                 _mensagensDeErros.Add(mensagemDeErro);
 
             return this;
@@ -33,14 +31,11 @@ namespace CursoOnline.Dominio._Base
             if (_mensagensDeErros.Any())
                 throw new ExcecaoDeDominio(_mensagensDeErros);
         }
-
     }
-
 
     public class ExcecaoDeDominio : ArgumentException
     {
         public List<string> MensagensDeErro { get; set; }
-
 
         public ExcecaoDeDominio(List<string> mensagensDeErros)
         {
