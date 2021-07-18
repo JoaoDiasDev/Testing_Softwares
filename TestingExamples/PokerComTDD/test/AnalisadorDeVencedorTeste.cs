@@ -1,3 +1,4 @@
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,40 +8,49 @@ namespace PokerComTDD.test
 {
     public class AnalisadorDeVencedorTeste
     {
-        [Theory]
-        [InlineData("20,4C,3P,6C,7C", "30,5C,2E,9C,7P", "Segundo Jogador")]
-        [InlineData("30,5C,2E,9C,7P", "20,4C,3P,6C,7C", "Primeiro Jogador")]
-        public void DeveAnalisarVencedorQuandoTiverMaiorCarta(string cartasDoPrimeiroJogadorString, string cartasDoSegundoJogadorString, string vencedorEsperado)
+        private readonly Mock<IAnalisadorDeVencedorComMaiorCarta> _analisadorDeVencedorComMaiorCarta;
+        private readonly Mock<IAnalisadorDeVencedorComParDeCartas> _analisadorDeVencedorComParDeCartas;
+        private readonly AnalisadorDeVencedor _analisador;
+        private readonly List<string> _cartasDoPrimeiroJogador;
+        private readonly List<string> _cartasDoSegundoJogador;
+
+        public AnalisadorDeVencedorTeste()
         {
-            var cartasDoPrimeiroJogador = cartasDoPrimeiroJogadorString.Split(',').ToList();
-            var cartasDoSegundoJogador = cartasDoSegundoJogadorString.Split(',').ToList();
-            var analisador = new AnalisadorDeVencedor();
-
-            var vencedor = analisador.Analisar(cartasDoPrimeiroJogador, cartasDoSegundoJogador);
-
-            Assert.Equal(vencedorEsperado, vencedor);
-        }
-    }
-
-    internal class AnalisadorDeVencedor
-    {
-        public AnalisadorDeVencedor()
-        {
-
+            _analisadorDeVencedorComMaiorCarta = new Mock<IAnalisadorDeVencedorComMaiorCarta>();
+            _analisadorDeVencedorComParDeCartas = new Mock<IAnalisadorDeVencedorComParDeCartas>();
+            _analisador = new AnalisadorDeVencedor(_analisadorDeVencedorComMaiorCarta.Object, _analisadorDeVencedorComParDeCartas.Object);
+            _cartasDoPrimeiroJogador = "2O,4C,3P,6C,7C".Split(',').ToList();
+            _cartasDoSegundoJogador = "3O,5C,2E,9C,7P".Split(',').ToList();
         }
 
-        public string Analisar(List<string> cartasDoPrimeiroJogador, List<string> cartasDoSegundoJogador)
+        [Fact]
+        public void DeveAnalisarVencedorQueTemMaiorCarta()
         {
-            var maiorCartaDoPrimeiroJogador = cartasDoPrimeiroJogador.Select(carta => int.Parse(carta.Substring(0, 1)))
-                                                                     .OrderBy(valorDaCarta => valorDaCarta)
-                                                                     .Max();
+            _analisadorDeVencedorComMaiorCarta.Setup(analisador => analisador.Analisar(_cartasDoPrimeiroJogador, _cartasDoSegundoJogador)).Returns("Segundo Jogador");
 
-            var maiorCartaDoSegundoJogador = cartasDoSegundoJogador.Select(carta => int.Parse(carta.Substring(0, 1)))
-                                                                   .OrderBy(valorDaCarta => valorDaCarta)
-                                                                   .Max();
+            _analisador.Analisar(_cartasDoPrimeiroJogador, _cartasDoSegundoJogador);
 
-            return maiorCartaDoPrimeiroJogador > maiorCartaDoSegundoJogador ? "Primeiro Jogador" : "Segundo Jogador";
-
+            _analisadorDeVencedorComMaiorCarta.Verify(analisador => analisador.Analisar(_cartasDoPrimeiroJogador, _cartasDoSegundoJogador));
         }
+
+        [Fact]
+        public void DeveAnalisarVencedorQueTemParDeCartas()
+        {
+            _analisadorDeVencedorComParDeCartas.Setup(analisador => analisador.Analisar(_cartasDoPrimeiroJogador, _cartasDoSegundoJogador)).Returns("Segundo Jogador");
+
+            _analisador.Analisar(_cartasDoPrimeiroJogador, _cartasDoSegundoJogador);
+
+            _analisadorDeVencedorComParDeCartas.Verify(analisador => analisador.Analisar(_cartasDoPrimeiroJogador, _cartasDoSegundoJogador));
+        }
+        [Fact]
+        public void NaoDeveAnalisarVencedorComMaiorCartaQuandoJogadaPar()
+        {
+            _analisadorDeVencedorComParDeCartas.Setup(analisador => analisador.Analisar(_cartasDoPrimeiroJogador, _cartasDoSegundoJogador)).Returns("Segundo Jogador");
+
+            _analisador.Analisar(_cartasDoPrimeiroJogador, _cartasDoSegundoJogador);
+
+            _analisadorDeVencedorComMaiorCarta.Verify(analisador => analisador.Analisar(_cartasDoPrimeiroJogador, _cartasDoSegundoJogador), Times.Never);
+        }
+
     }
 }
