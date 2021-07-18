@@ -17,14 +17,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/StephanyBatista/CursoOnline.git"
+    "url": "git+https://github.com/JoaoDiasDev/Testing_Softwares.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/StephanyBatista/CursoOnline/issues"
+    "url": "https://github.com/JoaoDiasDev/Testing_Softwares/issues"
   },
-  "homepage": "https://github.com/StephanyBatista/CursoOnline#readme",
+  "homepage": "https://github.com/JoaoDiasDev/Testing_Softwares#readme",
   "devDependencies": {
     "faker": "^4.1.0",
     "testcafe": "^0.20.5"
